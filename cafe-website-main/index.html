@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="style.css">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Tulip Touch Café — Vadodara</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+
+<style>
+/* ===== TABLE BOOKING ===== */
+#booking { padding: 80px 0; background: #fff8f2; }
+
+.booking-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow: 0 8px 40px rgba(90,40,10,0.10);
+  border: 1.5px solid #f0dfc4;
+}
+.booking-card .section-label { display:block; margin-bottom:6px; }
+.booking-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; color: #3d1f0a;
+  margin-bottom: 6px;
+}
+.booking-subtitle { font-size:14px; color:#a07050; margin-bottom:24px; }
+
+.booking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.booking-field { display:flex; flex-direction:column; gap:5px; }
+.booking-field.full { grid-column: 1 / -1; }
+.booking-label {
+  font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.6px; color:#8a6045;
+}
+.booking-input {
+  padding: 11px 14px;
+  border: 1.5px solid #e2c9a8;
+  border-radius: 10px;
+  font-family: 'Lato', sans-serif;
+  font-size:14px; color:#3d1f0a;
+  background:#fffaf6;
+  outline:none;
+  transition: border 0.2s, background 0.2s;
+  width:100%;
+}
+.booking-input:focus { border-color:#c8813a; background:#fff; }
+.booking-input option { color:#3d1f0a; }
+
+.btn-whatsapp {
+  display: flex; align-items:center; justify-content:center; gap:10px;
+  width: 100%; padding: 15px;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: #fff; border: none; border-radius: 12px;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; cursor: pointer;
+  margin-top: 20px;
+  transition: opacity 0.2s, transform 0.15s;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+}
+.btn-whatsapp:hover { opacity:0.92; transform:translateY(-1px); }
+.btn-whatsapp i { font-size:20px; }
+
+/* success banner */
+.booking-success {
+  display:none;
+  background: #e8f5e9;
+  border: 1.5px solid #a5d6a7;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  text-align:center;
+}
+.booking-success.show { display:block; }
+.booking-success-icon { font-size:28px; margin-bottom:6px; }
+.booking-success-title { font-family:'Playfair Display',serif; font-size:1.1rem; color:#1b5e20; margin-bottom:4px; }
+.booking-success-sub { font-size:13px; color:#2e7d32; }
+
+/* info side */
+.booking-info-card {
+  background:#fff;
+  border-radius:20px;
+  padding:32px;
+  box-shadow:0 8px 40px rgba(90,40,10,0.08);
+  border:1.5px solid #f0dfc4;
+  height:100%;
+}
+.booking-info-title {
+  font-family:'Playfair Display',serif;
+  font-size:1.25rem; color:#3d1f0a;
+  margin-bottom:20px;
+}
+.binfo-row {
+  display:flex; gap:14px; align-items:flex-start;
+  padding:14px 0; border-bottom:1px solid #f5e8d6;
+}
+.binfo-row:last-of-type { border-bottom:none; }
+.binfo-icon {
+  width:40px; height:40px; border-radius:10px;
+  background:linear-gradient(135deg,#c8813a,#7c4a2e);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:15px; flex-shrink:0;
+}
+.binfo-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#a07050; margin-bottom:3px; }
+.binfo-val { font-size:14px; color:#3d1f0a; font-weight:600; }
+.binfo-sub { font-size:12px; color:#b08060; margin-top:1px; }
+
+.wa-note {
+  margin-top:20px;
+  background:#f0fff4;
+  border:1px solid #c8e6c9;
+  border-radius:10px;
+  padding:14px 16px;
+  display:flex; gap:10px; align-items:flex-start;
+}
+.wa-note i { color:#25d366; font-size:18px; margin-top:2px; flex-shrink:0; }
+.wa-note-text { font-size:13px; color:#2e7d32; line-height:1.55; }
+
+/* ===== INSTAGRAM SCROLLER ===== */
+#instagram {
+  padding: 70px 0 60px;
+  background: #fff8f2;
+  overflow: hidden;
+}
+.insta-header { text-align: center; margin-bottom: 36px; }
+.insta-handle {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600;
+  margin-bottom: 6px;
+}
+.insta-handle i { font-size: 20px; background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* track wrapper — hides overflow */
+.insta-track-wrap {
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+  user-select: none;
+}
+.insta-track-wrap:active { cursor: grabbing; }
+
+/* fade edges */
+.insta-track-wrap::before,
+.insta-track-wrap::after {
+  content:''; position:absolute; top:0; width:80px; height:100%; z-index:2; pointer-events:none;
+}
+.insta-track-wrap::before { left:0; background: linear-gradient(to right, #fff8f2, transparent); }
+.insta-track-wrap::after  { right:0; background: linear-gradient(to left,  #fff8f2, transparent); }
+
+/* scrolling strip — duplicated for infinite loop */
+.insta-track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  animation: instaScroll 28s linear infinite;
+}
+.insta-track-wrap:hover .insta-track { animation-play-state: paused; }
+
+@keyframes instaScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.insta-post {
+  width: 220px; height: 220px; flex-shrink: 0;
+  border-radius: 16px; overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(90,40,10,0.10);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.insta-post:hover { transform: scale(1.04); box-shadow: 0 8px 30px rgba(90,40,10,0.18); }
+.insta-post img { width:100%; height:100%; object-fit:cover; display:block; }
+.insta-post-overlay {
+  position:absolute; inset:0;
+  background: linear-gradient(to top, rgba(60,20,5,0.65) 0%, transparent 55%);
+  opacity:0; transition: opacity 0.3s;
+  display:flex; align-items:flex-end; padding:12px;
+}
+.insta-post:hover .insta-post-overlay { opacity:1; }
+.insta-post-cap { color:#fff; font-size:12px; font-family:'Lato',sans-serif; line-height:1.4; }
+.insta-post-cap i { margin-right:4px; color:#f9a8c9; }
+
+.insta-cta { text-align:center; margin-top:28px; }
+.insta-cta a {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:11px 28px; border-radius:99px;
+  border:2px solid transparent;
+  background: linear-gradient(#fff8f2,#fff8f2) padding-box,
+              linear-gradient(135deg,#f09433,#dc2743,#bc1888) border-box;
+  font-family:'Lato',sans-serif; font-size:14px; font-weight:700;
+  background-clip: unset;
+  color:#c0392b; text-decoration:none;
+  transition:background 0.2s, color 0.2s;
+}
+.insta-cta a:hover { background:#dc2743; color:#fff; border-color:#dc2743; }
+.insta-cta a i { font-size:16px; }
+
+/* ===== LOYALTY FLOATING BUTTON ===== */
+#loyalty-btn {
+  position: fixed;
+  bottom: 100px;
+  right: 28px;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #c8813a, #7c4a2e);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 4px 18px rgba(124,74,46,0.35);
+  transition: transform 0.2s;
+  color: #fff;
+  font-size: 22px;
+}
+#loyalty-btn:hover { transform: scale(1.1); }
+#loyalty-btn .loyalty-badge {
+  position: absolute;
+  top: -4px; right: -4px;
+  background: #e53935;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 99px;
+  padding: 2px 6px;
+  font-family: 'Lato', sans-serif;
+}
+
+/* ===== LOYALTY MODAL OVERLAY ===== */
+#loyalty-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(60,30,10,0.55);
+  z-index: 1100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+#loyalty-modal.open { display: flex; }
+
+#loyalty-box {
+  background: #fffaf4;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px 24px 24px;
+  position: relative;
+  font-family: 'Lato', sans-serif;
+  box-shadow: 0 20px 60px rgba(60,30,10,0.25);
+}
+#loyalty-close {
+  position: absolute;
+  top: 16px; right: 20px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #a07050;
+  line-height: 1;
+}
+#loyalty-close:hover { color: #5a3a25; }
+
+/* header */
+.loy-header { text-align: center; margin-bottom: 20px; }
+.loy-header .loy-icon { font-size: 32px; margin-bottom: 6px; }
+.loy-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  color: #3d1f0a;
+  margin: 0 0 4px;
+}
+.loy-header p { font-size: 13px; color: #8a6045; margin: 0; }
+
+/* panels */
+.loy-panel { display: none; }
+.loy-panel.active { display: block; }
+
+/* form */
+.loy-label { font-size: 12px; color: #8a6045; margin-bottom: 4px; display: block; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+.loy-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e2c9a8;
+  border-radius: 10px;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  background: #fff;
+  color: #3d1f0a;
+  margin-bottom: 14px;
+  outline: none;
+  transition: border 0.2s;
+}
+.loy-input:focus { border-color: #c8813a; }
+
+.loy-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #c8813a, #7c4a2e);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: opacity 0.2s;
+}
+.loy-btn:hover { opacity: 0.88; }
+.loy-btn-sm {
+  padding: 7px 16px;
+  font-size: 12px;
+  border-radius: 8px;
+  width: auto;
+  font-family: 'Lato', sans-serif;
+}
+
+/* metrics */
+.loy-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.loy-metric {
+  background: #fff;
+  border: 1.5px solid #e2c9a8;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+}
+.loy-metric-val { font-size: 22px; font-weight: 700; color: #7c4a2e; font-family: 'Playfair Display', serif; }
+.loy-metric-lbl { font-size: 11px; color: #a07050; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.4px; }
+
+/* tier bar */
+.loy-tier-wrap { margin-bottom: 16px; }
+.loy-tier-top { display: flex; justify-content: space-between; font-size: 12px; color: #a07050; margin-bottom: 5px; }
+.loy-tier-bar { height: 8px; background: #e2c9a8; border-radius: 99px; overflow: hidden; }
+.loy-tier-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg,#c8813a,#7c4a2e); transition: width 0.5s ease; }
+.loy-tier-hint { font-size: 11px; color: #a07050; margin-top: 4px; }
+
+/* tier chip */
+.loy-tier-chip {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 12px;
+  border-radius: 99px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-family: 'Lato', sans-serif;
+}
+
+/* section heading */
+.loy-section-title { font-size: 13px; font-weight: 700; color: #5a3a25; text-transform: uppercase; letter-spacing: 0.6px; margin: 16px 0 10px; }
+
+/* rewards */
+.loy-reward-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0dfc4;
+}
+.loy-reward-row:last-child { border-bottom: none; }
+.loy-reward-name { font-size: 14px; color: #3d1f0a; font-weight: 600; }
+.loy-reward-sub { font-size: 11px; color: #a07050; margin-top: 2px; }
+.loy-badge {
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.loy-badge-locked { background: #f0e4d0; color: #b08060; }
+.loy-badge-earned { background: #e8f5e9; color: #2e7d32; }
+.loy-badge-claimed { background: #fff3e0; color: #e65100; }
+
+/* history */
+.loy-hist-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0dfc4;
+  font-size: 13px;
+  color: #5a3a25;
+}
+.loy-hist-row:last-child { border-bottom: none; }
+.loy-hist-date { font-size: 11px; color: #b08060; margin-top: 2px; }
+.loy-pts-add { color: #2e7d32; font-weight: 700; }
+.loy-pts-sub { color: #c62828; font-weight: 700; }
+
+/* msg */
+.loy-msg { font-size: 13px; margin-top: 8px; text-align: center; min-height: 18px; }
+.loy-msg.ok { color: #2e7d32; }
+.loy-msg.err { color: #c62828; }
+
+/* logout */
+.loy-logout { font-size: 12px; color: #a07050; cursor: pointer; text-decoration: underline; float: right; }
+.loy-logout:hover { color: #5a3a25; }
+.loy-user-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #3d1f0a; }
+
+/* add visit */
+.loy-add-wrap { background: #fff8f0; border: 1.5px solid #e2c9a8; border-radius: 12px; padding: 14px; margin-bottom: 4px; }
+</style>
+  
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">The Tulip Touch <span style="color:var(--caramel)">Café</span></div>
+  <div class="loader-sub">Vadodara &nbsp;·&nbsp; Est. 2020</div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt=""/>
+</div>
+
+<!-- ━━━━━━━━━━━━ LOYALTY FLOATING BUTTON ━━━━━━━━━━━━ -->
+<div id="loyalty-btn" onclick="openLoyalty()" title="Loyalty Rewards">
+  <i class="fas fa-star"></i>
+  <span class="loyalty-badge" id="loy-pts-badge" style="display:none">0</span>
+</div>
+
+<!-- ━━━━━━━━━━━━ LOYALTY MODAL ━━━━━━━━━━━━ -->
+<div id="loyalty-modal">
+  <div id="loyalty-box">
+    <span id="loyalty-close" onclick="closeLoyalty()">&times;</span>
+
+    <div class="loy-header">
+      <div class="loy-icon">☕</div>
+      <h3>Tulip Touch Loyalty</h3>
+      <p>Earn points, unlock rewards</p>
+    </div>
+
+    <!-- LOGIN PANEL -->
+    <div class="loy-panel active" id="loy-login">
+      <label class="loy-label">Full Name</label>
+      <input class="loy-input" id="loy-inp-name" type="text" placeholder="e.g. Priya Sharma"/>
+      <label class="loy-label">Phone Number</label>
+      <input class="loy-input" id="loy-inp-phone" type="tel" placeholder="e.g. 9876543210"/>
+      <button class="loy-btn" onclick="loyLogin()">Continue</button>
+      <div class="loy-msg" id="loy-login-msg"></div>
+      <div style="margin-top:14px;font-size:12px;color:#b08060;text-align:center;">
+        ₹10 spent = 1 point &nbsp;·&nbsp; Bronze → Silver → Gold → Platinum
+      </div>
+    </div>
+
+    <!-- DASHBOARD PANEL -->
+    <div class="loy-panel" id="loy-dash">
+      <div style="margin-bottom:14px;">
+        <span class="loy-logout" onclick="loyLogout()">Logout</span>
+        <div class="loy-user-name" id="loy-greet">Hi, Priya!</div>
+        <div style="margin-top:4px;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:12px;color:#a07050">Member since <span id="loy-since"></span></span>
+          <span class="loy-tier-chip" id="loy-tier-chip">Bronze</span>
+        </div>
+      </div>
+
+      <!-- metrics -->
+      <div class="loy-metrics">
+        <div class="loy-metric">
+          <div class="loy-metric-val" id="loy-pts-val">0</div>
+          <div class="loy-metric-lbl">Points</div>
+        </div>
+        <div class="loy-metric">
+          <div class="loy-metric-val" id="loy-visits-val">0</div>
+          <div class="loy-metric-lbl">Visits</div>
+        </div>
+        <div class="loy-metric">
+          <div class="loy-metric-val" id="loy-spent-val">₹0</div>
+          <div class="loy-metric-lbl">Total Spent</div>
+        </div>
+        <div class="loy-metric">
+          <div class="loy-metric-val" id="loy-saved-val">₹0</div>
+          <div class="loy-metric-lbl">Total Saved</div>
+        </div>
+      </div>
+
+      <!-- tier progress -->
+      <div class="loy-tier-wrap">
+        <div class="loy-tier-top">
+          <span id="loy-tier-from">Bronze</span>
+          <span id="loy-tier-to">Silver (300 pts)</span>
+        </div>
+        <div class="loy-tier-bar"><div class="loy-tier-fill" id="loy-tier-fill" style="width:0%"></div></div>
+        <div class="loy-tier-hint" id="loy-tier-hint">300 pts more to reach Silver</div>
+      </div>
+
+      <!-- add visit -->
+      <div class="loy-add-wrap">
+        <div class="loy-section-title" style="margin-top:0">Add Visit</div>
+        <label class="loy-label">Amount Spent (₹)</label>
+        <input class="loy-input" id="loy-amt" type="number" min="1" placeholder="e.g. 450"/>
+        <button class="loy-btn" onclick="loyAddVisit()">Earn Points</button>
+        <div class="loy-msg" id="loy-visit-msg"></div>
+      </div>
+
+      <!-- rewards -->
+      <div class="loy-section-title">Rewards</div>
+      <div id="loy-rewards-list"></div>
+
+      <!-- history -->
+      <div class="loy-section-title">History</div>
+      <div id="loy-hist-list"><div style="font-size:13px;color:#b08060;">No activity yet.</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ━━━━━━━━━━━━ NAVBAR ━━━━━━━━━━━━ -->
+<nav id="mainNav" class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="#">The Tulip Touch <span>Café</span></a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
+        <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="#testimonials">Reviews</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="nav-link btn-nav">Visit Us</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ━━━━━━━━━━━━ HERO ━━━━━━━━━━━━ -->
+<section id="hero">
+  <div class="hero-slide active" style="background-image:url('images/coffee.jpg')"></div>
+  <div class="hero-slide" style="background-image:url('images/img1.png')"></div>
+  <div class="hero-slide" style="background-image:url('images/img3.png')"></div>
+
+  <div class="hero-overlay"></div>
+  <div class="hero-letterbox-top"></div>
+  <div class="hero-letterbox-bottom"></div>
+
+  <div class="hero-particle" style="width:10px;height:10px;left:12%;bottom:-20px;animation-duration:11s;animation-delay:0s;"></div>
+  <div class="hero-particle" style="width:7px;height:7px;left:25%;bottom:-20px;animation-duration:14s;animation-delay:1.2s;"></div>
+  <div class="hero-particle" style="width:14px;height:14px;left:42%;bottom:-20px;animation-duration:9s;animation-delay:2.5s;"></div>
+  <div class="hero-particle" style="width:6px;height:6px;left:58%;bottom:-20px;animation-duration:13s;animation-delay:0.8s;"></div>
+  <div class="hero-particle" style="width:11px;height:11px;left:70%;bottom:-20px;animation-duration:10s;animation-delay:3s;"></div>
+  <div class="hero-particle" style="width:8px;height:8px;left:83%;bottom:-20px;animation-duration:12s;animation-delay:1.8s;"></div>
+  <div class="hero-particle" style="width:16px;height:16px;left:6%;bottom:-20px;animation-duration:15s;animation-delay:4s;"></div>
+  <div class="hero-particle" style="width:9px;height:9px;left:92%;bottom:-20px;animation-duration:10.5s;animation-delay:2s;"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">Vadodara's Finest Café Experience</div>
+    <h1 class="hero-title">Where Every Sip<br>Tells a Story</h1>
+    <div class="hero-sub">Aroma &nbsp;·&nbsp; Ambience &nbsp;·&nbsp; Food</div>
+    <div class="hero-cta">
+      <a href="#about" class="btn-hero">Discover More</a>
+    </div>
+  </div>
+
+  <div class="hero-dots">
+    <div class="hero-dot active" onclick="goSlide(0)"></div>
+    <div class="hero-dot" onclick="goSlide(1)"></div>
+    <div class="hero-dot" onclick="goSlide(2)"></div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━ ABOUT ━━━━━━━━━━━━ -->
+<section id="about">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 reveal from-left">
+        <div class="about-img-wrap" id="tiltCard">
+          <img src="images/img2.png" alt="Tulip Touch Cafe Interior"/>
+        </div>
+      </div>
+      <div class="col-lg-6 reveal from-right">
+        <div class="about-text">
+          <span class="section-label">Our Story</span>
+          <h2 class="section-title">More Than Just a Café</h2>
+          <div class="section-divider"></div>
+          <p class="mb-3" style="line-height:1.85;color:#5a3a25;">
+            The Tulip Touch Café is Vadodara's most heartwarming café experience. Nestled in the heart of the city, we blend the warmth of Indian hospitality with global flavours — crafted for every craving, every mood, every moment.
+          </p>
+          <p class="mb-4" style="line-height:1.85;color:#5a3a25;">
+            From our hand-crafted coffees to our indulgent pastries and hearty meals, every plate and every cup is made with passion. Wrapped in warm tones, floral décor, and soft lighting — we are made for comfort, conversations, and memories.
+          </p>
+          <a href="#contact" class="btn-caramel">Visit Us Today</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━ STATS ━━━━━━━━━━━━ -->
+<section id="stats">
+  <div class="container">
+    <div class="row g-4 text-center">
+      <div class="col-6 col-md-3 reveal">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-mug-hot"></i></div>
+          <div class="stat-num" data-target="5000">0</div>
+          <div class="stat-label">Cups Served</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 reveal" style="transition-delay:0.1s">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-utensils"></i></div>
+          <div class="stat-num" data-target="60">0</div>
+          <div class="stat-label">Menu Items</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 reveal" style="transition-delay:0.2s">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-star"></i></div>
+          <div class="stat-num" data-target="4">0</div>
+          <div class="stat-label">Google Rating</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 reveal" style="transition-delay:0.3s">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-heart"></i></div>
+          <div class="stat-num" data-target="2000">0</div>
+          <div class="stat-label">Happy Guests</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━ MENU ━━━━━━━━━━━━ -->
+<section id="menu">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <span class="section-label">What We Serve</span>
+      <h2 class="section-title">Our Signature Menu</h2>
+      <div class="section-divider mx-auto"></div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4 reveal" style="transition-delay:0s">
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600" alt="Cappuccino"/></div>
+          <div class="price-badge">₹ 180</div>
+          <div class="menu-body"><h5>Classic Cappuccino</h5><p>Rich espresso with velvety steamed milk and a dusting of cocoa.</p></div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal" style="transition-delay:0.1s">
+        <div class="menu-card">
+          <div class="menu-img"><img src="images/coffee.jpg" alt="Cold Brew"/></div>
+          <div class="price-badge">₹ 220</div>
+          <div class="menu-body"><h5>Cold Brew Coffee</h5><p>12-hour cold steeped coffee, smooth and refreshing with zero bitterness.</p></div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal" style="transition-delay:0.2s">
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600" alt="Pasta"/></div>
+          <div class="price-badge">₹ 280</div>
+          <div class="menu-body"><h5>Creamy Alfredo Pasta</h5><p>Classic white sauce pasta with a rich, cheesy, perfectly seasoned finish.</p></div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal" style="transition-delay:0.1s">
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600" alt="Waffles"/></div>
+          <div class="price-badge">₹ 240</div>
+          <div class="menu-body"><h5>Belgian Waffles</h5><p>Crispy golden waffles topped with fresh berries and whipped cream.</p></div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal" style="transition-delay:0.2s">
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600" alt="Sandwich"/></div>
+          <div class="price-badge">₹ 200</div>
+          <div class="menu-body"><h5>Grilled Club Sandwich</h5><p>Layered with fresh veggies, cheese, and signature tulip sauce on toasted bread.</p></div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal" style="transition-delay:0.3s">
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600" alt="Pastry"/></div>
+          <div class="price-badge">₹ 160</div>
+          <div class="menu-body"><h5>Croissant & Pastries</h5><p>Freshly baked buttery croissants and seasonal pastries every morning.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━ GALLERY ━━━━━━━━━━━━ -->
+<section id="gallery">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <span class="section-label">Our Space</span>
+      <h2 class="section-title">Gallery</h2>
+      <div class="section-divider mx-auto"></div>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700" alt="Food"/>
+        <div class="gallery-overlay">Our Kitchen Creations</div>
+      </div>
+      <div class="gallery-item reveal" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=700" alt="Coffee"/>
+        <div class="gallery-overlay">Hand-crafted Coffees</div>
+      </div>
+      <div class="gallery-item reveal" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700" alt="Ambience"/>
+        <div class="gallery-overlay">Warm Ambience</div>
+      </div>
+      <div class="gallery-item reveal" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700" alt="Pasta"/>
+        <div class="gallery-overlay">Signature Pasta</div>
+      </div>
+      <div class="gallery-item reveal" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=700" alt="Interior"/>
+        <div class="gallery-overlay">Cozy Interiors</div>
+      </div>
+      <div class="gallery-item reveal" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=700" alt="Sandwich"/>
+        <div class="gallery-overlay">Fresh Bites</div>
+      </div>
+      <div class="gallery-item reveal" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=700" alt="Pizza"/>
+        <div class="gallery-overlay">Our Specials</div>
+      </div>
+      <div class="gallery-item reveal" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=700" alt="Waffles"/>
+        <div class="gallery-overlay">Sweet Treats</div>
+      </div>
+      <div class="gallery-item reveal" onclick="openLightbox(this)">
+        <img src="images/coffee.jpg" alt="Cold Brew"/>
+        <div class="gallery-overlay">Cold Brews</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━ INSTAGRAM FEED ━━━━━━━━━━━━ -->
+<section id="instagram">
+  <div class="insta-header reveal">
+    <span class="section-label">Follow Our Journey</span>
+    <h2 class="section-title">On Instagram</h2>
+    <div class="section-divider mx-auto" style="margin-bottom:10px;"></div>
+    <div class="insta-handle"><i class="fab fa-instagram"></i> @thetuliptouchcafe</div>
+  </div>
+
+  <div class="insta-track-wrap" id="instaWrap">
+    <div class="insta-track" id="instaTrack">
+      <!-- Original posts -->
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500" alt="Coffee"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Our signature cappuccino ☕</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500" alt="Food"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Freshly plated, made with love 🍽️</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500" alt="Ambience"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Warm evenings at Tulip Touch ✨</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=500" alt="Waffles"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Belgian waffles done right 🧇</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500" alt="Pasta"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Creamy alfredo — a crowd fav 🍝</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=500" alt="Interior"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Cozy corners for good talks 💛</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" alt="Sandwich"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Grilled club sandwich — stacked! 🥪</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" alt="Pizza"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Weekend specials are here 🍕</div></div></div>
+      <div class="insta-post"><img src="images/coffee.jpg" alt="Cold Brew"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Cold brew — smooth & bold 🧊</div></div></div>
+      <div class="insta-post"><img src="images/img1.png" alt="Café"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Welcome to Tulip Touch 🌷</div></div></div>
+      <div class="insta-post"><img src="images/img2.png" alt="Interior"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Our beautiful space 🌸</div></div></div>
+      <div class="insta-post"><img src="images/img3.png" alt="Café Vibes"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Every visit feels like home 🏡</div></div></div>
+      <!-- Duplicated for seamless infinite loop -->
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500" alt="Coffee"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Our signature cappuccino ☕</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500" alt="Food"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Freshly plated, made with love 🍽️</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500" alt="Ambience"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Warm evenings at Tulip Touch ✨</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=500" alt="Waffles"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Belgian waffles done right 🧇</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500" alt="Pasta"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Creamy alfredo — a crowd fav 🍝</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=500" alt="Interior"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Cozy corners for good talks 💛</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" alt="Sandwich"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Grilled club sandwich — stacked! 🥪</div></div></div>
+      <div class="insta-post"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" alt="Pizza"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Weekend specials are here 🍕</div></div></div>
+      <div class="insta-post"><img src="images/coffee.jpg" alt="Cold Brew"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Cold brew — smooth & bold 🧊</div></div></div>
+      <div class="insta-post"><img src="images/img1.png" alt="Café"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Welcome to Tulip Touch 🌷</div></div></div>
+      <div class="insta-post"><img src="images/img2.png" alt="Interior"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Our beautiful space 🌸</div></div></div>
+      <div class="insta-post"><img src="images/img3.png" alt="Café Vibes"/><div class="insta-post-overlay"><div class="insta-post-cap"><i class="fas fa-heart"></i>Every visit feels like home 🏡</div></div></div>
+    </div>
+  </div>
+
+  <div class="insta-cta">
+    <a href="https://www.instagram.com/thetuliptouchcafe" target="_blank" rel="noopener">
+      <i class="fab fa-instagram"></i> Follow us on Instagram
+    </a>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━ TESTIMONIALS ━━━━━━━━━━━━ -->
+<section id="testimonials">
+  <div class="testi-big-quote">"</div>
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <span class="section-label">What People Say</span>
+      <h2 class="section-title">Guest Reviews</h2>
+      <div class="section-divider mx-auto"></div>
+    </div>
+    <div class="testi-wrapper reveal">
+      <div class="testi-card active" id="testiCard">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text" id="testiText">"The Tulip Touch Café is an absolute gem in Vadodara. The cappuccino was perfect, the ambience warm and inviting — felt like home instantly."</div>
+        <div class="testi-name" id="testiName">— Priya Sharma, Vadodara</div>
+      </div>
+    </div>
+    <div class="testi-dots" id="testiDots"></div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━ CTA BANNER ━━━━━━━━━━━━ -->
+<section id="cta-banner">
+  <div class="cta-inner reveal">
+    <h2>Come, Be Our Guest</h2>
+    <p>Experience the warmth, aroma and flavour of Tulip Touch — Vadodara's favourite café.</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="#menu" class="btn-outline-caramel" style="border-color:#fff;color:#fff;">Explore Menu</a>
+      <a href="#contact" class="btn-caramel">Reserve a Table</a>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━ TABLE BOOKING ━━━━━━━━━━━━ -->
+<section id="booking">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <span class="section-label">Reserve Your Spot</span>
+      <h2 class="section-title">Book a Table</h2>
+      <div class="section-divider mx-auto"></div>
+    </div>
+    <div class="row g-4">
+
+      <!-- BOOKING FORM -->
+      <div class="col-lg-7 reveal from-left">
+        <div class="booking-card">
+          <span class="section-label">Table Reservation</span>
+          <div class="booking-title">Reserve Your Table</div>
+          <div class="booking-subtitle">Fill in your details — confirmation will be sent on WhatsApp instantly ✓</div>
+
+          <div class="booking-grid">
+            <div class="booking-field">
+              <label class="booking-label">Your Name</label>
+              <input class="booking-input" id="bk-name" type="text" placeholder="e.g. Priya Sharma"/>
+            </div>
+            <div class="booking-field">
+              <label class="booking-label">Phone Number</label>
+              <input class="booking-input" id="bk-phone" type="tel" placeholder="e.g. 9876543210"/>
+            </div>
+            <div class="booking-field">
+              <label class="booking-label">Date</label>
+              <input class="booking-input" id="bk-date" type="date"/>
+            </div>
+            <div class="booking-field">
+              <label class="booking-label">Time</label>
+              <select class="booking-input" id="bk-time">
+                <option value="">Select time</option>
+                <option>09:00 AM</option><option>09:30 AM</option>
+                <option>10:00 AM</option><option>10:30 AM</option>
+                <option>11:00 AM</option><option>11:30 AM</option>
+                <option>12:00 PM</option><option>12:30 PM</option>
+                <option>01:00 PM</option><option>01:30 PM</option>
+                <option>02:00 PM</option><option>02:30 PM</option>
+                <option>03:00 PM</option><option>03:30 PM</option>
+                <option>04:00 PM</option><option>04:30 PM</option>
+                <option>05:00 PM</option><option>05:30 PM</option>
+                <option>06:00 PM</option><option>06:30 PM</option>
+                <option>07:00 PM</option><option>07:30 PM</option>
+                <option>08:00 PM</option><option>08:30 PM</option>
+                <option>09:00 PM</option><option>09:30 PM</option>
+                <option>10:00 PM</option>
+              </select>
+            </div>
+            <div class="booking-field">
+              <label class="booking-label">No. of Guests</label>
+              <select class="booking-input" id="bk-guests">
+                <option value="">Select guests</option>
+                <option>1 Guest</option><option>2 Guests</option>
+                <option>3 Guests</option><option>4 Guests</option>
+                <option>5 Guests</option><option>6 Guests</option>
+                <option>7 Guests</option><option>8 Guests</option>
+                <option>9 Guests</option><option>10+ Guests</option>
+              </select>
+            </div>
+            <div class="booking-field">
+              <label class="booking-label">Occasion (Optional)</label>
+              <select class="booking-input" id="bk-occasion">
+                <option value="">Select occasion</option>
+                <option>Birthday 🎂</option>
+                <option>Anniversary 💕</option>
+                <option>Business Meeting 💼</option>
+                <option>Casual Dining 🍽️</option>
+                <option>Date Night 🌹</option>
+                <option>Family Gathering 👨‍👩‍👧</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="booking-field full">
+              <label class="booking-label">Special Request (Optional)</label>
+              <input class="booking-input" id="bk-note" type="text" placeholder="e.g. Window seat preferred, cake arranged..."/>
+            </div>
+          </div>
+
+          <button class="btn-whatsapp" onclick="bookTable()">
+            <i class="fab fa-whatsapp"></i> Confirm Booking via WhatsApp
+          </button>
+
+          <div class="booking-success" id="bk-success">
+            <div class="booking-success-icon">🎉</div>
+            <div class="booking-success-title">Booking Confirmed!</div>
+            <div class="booking-success-sub">WhatsApp pe message bheja ja raha hai — please allow the redirect.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO SIDE -->
+      <div class="col-lg-5 reveal from-right">
+        <div class="booking-info-card">
+          <div class="booking-info-title">Visit Information</div>
+
+          <div class="binfo-row">
+            <div class="binfo-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <div class="binfo-label">Address</div>
+              <div class="binfo-val">Vadodara, Gujarat, India</div>
+              <div class="binfo-sub">City centre location</div>
+            </div>
+          </div>
+          <div class="binfo-row">
+            <div class="binfo-icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <div class="binfo-label">Opening Hours</div>
+              <div class="binfo-val">Mon – Sun: 9:00 AM – 10:30 PM</div>
+              <div class="binfo-sub">Open all days including holidays</div>
+            </div>
+          </div>
+          <div class="binfo-row">
+            <div class="binfo-icon"><i class="fas fa-phone-alt"></i></div>
+            <div>
+              <div class="binfo-label">Call Us</div>
+              <div class="binfo-val">+91 XXXXX XXXXX</div>
+              <div class="binfo-sub">For urgent reservations</div>
+            </div>
+          </div>
+          <div class="binfo-row">
+            <div class="binfo-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <div class="binfo-label">Email</div>
+              <div class="binfo-val">hello@tuliptouchcafe.in</div>
+              <div class="binfo-sub">We reply within 2 hours</div>
+            </div>
+          </div>
+
+          <div class="wa-note">
+            <i class="fab fa-whatsapp"></i>
+            <div class="wa-note-text">
+              Booking confirm hote hi aapko <strong>WhatsApp pe message</strong> milega with your booking details — date, time, guests, aur special requests sab included! 🎉
+            </div>
+          </div>
+
+          <div class="social-icons mt-4">
+            <a href="https://www.instagram.com/thetuliptouchcafe" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://wa.me/91XXXXXXXXXX" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━ CONTACT (id kept for nav links) ━━━━━━━━━━━━ -->
+<div id="contact"></div>
+
+<!-- ━━━━━━━━━━━━ FOOTER ━━━━━━━━━━━━ -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="footer-brand mb-3">The Tulip Touch <span>Café</span></div>
+        <p style="color:rgba(253,246,236,0.6);font-size:0.88rem;line-height:1.75;">
+          Vadodara's warmest café experience — crafted for comfort, flavour, and memories that last.
+        </p>
+        <div class="social-icons mt-3">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-6">
+        <h5>Quick Links</h5>
+        <a href="#about">About Us</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <h5>Contact</h5>
+        <a href="#">Vadodara, Gujarat</a>
+        <a href="#">+91 8866282655</a>
+        <a href="#"><span class="__cf_email__" data-cfemail="7d15181111123d090811140d0912081e151e1c1b18531413">[email&#160;protected]</span></a>
+        <a href="#">Mon–Sun: 9AM – 10:30PM</a>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <h5>Newsletter</h5>
+        <p style="color:rgba(253,246,236,0.55);font-size:0.85rem;margin-bottom:14px;">Get updates on new menu items and offers.</p>
+        <div class="footer-subscribe">
+          <input type="email" placeholder="Your email address"/>
+          <button>Subscribe</button>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-divider"/>
+    <p class="footer-copy">© 2025 The Tulip Touch Café, Vadodara. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+
+<!-- CHAT BUTTON -->
+<div id="chat-btn">💬</div>
+
+<!-- CHAT BOX -->
+<div id="chat-box">
+  <div class="chat-header">Tulip Café</div>
+  <div id="chat-body">
+    <div class="bot-msg">
+      Hi 👋 Welcome! How can we help?
+      <div class="chat-options">
+        <div onclick="sendMsg('menu')">🍽️ View Menu</div>
+        <div onclick="sendMsg('location')">📍 Location</div>
+        <div onclick="sendMsg('time')">⏰ Opening Hours</div>
+        <div onclick="sendMsg('contact')">📞 Contact</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== CHAT =====
+document.getElementById("chat-btn").onclick = () => {
+  let box = document.getElementById("chat-box");
+  box.style.display = box.style.display === "none" ? "block" : "none";
+};
+function sendMsg(type) {
+  let chat = document.getElementById("chat-body");
+  let userMsg = document.createElement("div"); userMsg.className = "user-msg";
+  let botMsg = document.createElement("div"); botMsg.className = "bot-msg";
+  if(type==="menu") userMsg.innerText="🍽️ View Menu";
+  if(type==="location") userMsg.innerText="📍 Location";
+  if(type==="time") userMsg.innerText="⏰ Opening Hours";
+  if(type==="contact") userMsg.innerText="📞 Contact";
+  if(type==="menu") botMsg.innerHTML=`<b>Our Menu 🍽️</b><br><br>☕ Cappuccino — ₹180<br>🧊 Cold Brew — ₹220<br>🍝 Alfredo Pasta — ₹280<br>🧇 Waffles — ₹240<br>🥪 Sandwich — ₹200<br><br>${getOptions()}`;
+  if(type==="location") botMsg.innerHTML=`📍 Vadodara, Gujarat<br><br>${getOptions()}`;
+  if(type==="time") botMsg.innerHTML=`⏰ Open 9 AM – 10:30 PM<br><br>${getOptions()}`;
+  if(type==="contact") botMsg.innerHTML=`📞 Call: +91 XXXXX XXXXX<br><br>${getOptions()}`;
+  chat.appendChild(userMsg); chat.appendChild(botMsg);
+  chat.scrollTop = chat.scrollHeight;
+}
+function getOptions(){
+  return `<div class="chat-options"><div onclick="sendMsg('menu')">🍽️ Menu</div><div onclick="sendMsg('location')">📍 Location</div><div onclick="sendMsg('time')">⏰ Hours</div><div onclick="sendMsg('contact')">📞 Contact</div></div>`;
+}
+
+// ===== TABLE BOOKING → WHATSAPP =====
+function bookTable() {
+  const name    = document.getElementById('bk-name').value.trim();
+  const phone   = document.getElementById('bk-phone').value.trim();
+  const date    = document.getElementById('bk-date').value;
+  const time    = document.getElementById('bk-time').value;
+  const guests  = document.getElementById('bk-guests').value;
+  const occasion= document.getElementById('bk-occasion').value;
+  const note    = document.getElementById('bk-note').value.trim();
+
+  // Validation
+  if (!name)   { alert('Please enter your name.'); return; }
+  if (!phone || !/^\d{10}$/.test(phone)) { alert('Please enter a valid 10-digit phone number.'); return; }
+  if (!date)   { alert('Please select a date.'); return; }
+  if (!time)   { alert('Please select a time.'); return; }
+  if (!guests) { alert('Please select number of guests.'); return; }
+
+  // Format date nicely
+  const d = new Date(date);
+  const formattedDate = d.toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+  // Build WhatsApp message
+  let msg = `🌷 *New Table Booking — The Tulip Touch Café*\n\n`;
+  msg += `👤 *Name:* ${name}\n`;
+  msg += `📞 *Phone:* +91 ${phone}\n`;
+  msg += `📅 *Date:* ${formattedDate}\n`;
+  msg += `⏰ *Time:* ${time}\n`;
+  msg += `👥 *Guests:* ${guests}\n`;
+  if (occasion) msg += `🎉 *Occasion:* ${occasion}\n`;
+  if (note)     msg += `📝 *Special Request:* ${note}\n`;
+  msg += `\n✅ Please confirm this booking. Thank you! 🙏`;
+
+  // YOUR WhatsApp number — replace 91XXXXXXXXXX with your actual number
+  const cafeWhatsApp = '8866282655';
+
+  const waURL = `https://wa.me/${cafeWhatsApp}?text=${encodeURIComponent(msg)}`;
+
+  // Show success banner
+  document.getElementById('bk-success').classList.add('show');
+
+  // Open WhatsApp after short delay
+  setTimeout(() => { window.open(waURL, '_blank'); }, 800);
+}
+
+// Set min date to today
+(function(){
+  const d = document.getElementById('bk-date');
+  if(d) { const today = new Date().toISOString().split('T')[0]; d.min = today; }
+})();
+
+// ===== INSTAGRAM DRAG SCROLL =====
+(function(){
+  const wrap = document.getElementById('instaWrap');
+  const track = document.getElementById('instaTrack');
+  let isDragging = false, startX = 0, scrollLeft = 0;
+  wrap.addEventListener('mousedown', e => {
+    isDragging = true; startX = e.pageX - wrap.offsetLeft;
+    scrollLeft = wrap.scrollLeft; wrap.style.cursor = 'grabbing';
+    track.style.animationPlayState = 'paused';
+  });
+  wrap.addEventListener('mouseleave', () => { isDragging = false; wrap.style.cursor = 'grab'; });
+  wrap.addEventListener('mouseup', () => { isDragging = false; wrap.style.cursor = 'grab'; });
+  wrap.addEventListener('mousemove', e => {
+    if(!isDragging) return; e.preventDefault();
+    const x = e.pageX - wrap.offsetLeft;
+    wrap.scrollLeft = scrollLeft - (x - startX);
+  });
+  wrap.style.overflowX = 'auto'; wrap.style.scrollbarWidth = 'none';
+  wrap.style.msOverflowStyle = 'none';
+})();
+
+// ===== LOYALTY SYSTEM =====
+const LOY_REWARDS = [
+  {id:'r1', name:'10% Discount', sub:'On your next bill', pts:100, pct:10},
+  {id:'r2', name:'15% Discount', sub:'On your next bill', pts:200, pct:15},
+  {id:'r3', name:'20% Discount', sub:'On your next bill', pts:350, pct:20},
+];
+const LOY_TIERS = [
+  {name:'Bronze',  min:0,    max:299,    color:'#a1653a', bg:'#fdf0e6'},
+  {name:'Silver',  min:300,  max:699,    color:'#7a7a8c', bg:'#f0f0f5'},
+  {name:'Gold',    min:700,  max:1199,   color:'#b8860b', bg:'#fff8e1'},
+  {name:'Platinum',min:1200, max:Infinity,color:'#5a4a9a',bg:'#f0eeff'},
+];
+
+function loyGetUsers(){try{return JSON.parse(localStorage.getItem('ttc_users')||'{}')}catch(e){return {}}}
+function loySaveUsers(u){localStorage.setItem('ttc_users',JSON.stringify(u))}
+function loyGetSession(){try{return localStorage.getItem('ttc_session')||null}catch(e){return null}}
+function loySaveSession(k){localStorage.setItem('ttc_session',k)}
+function loyClearSession(){localStorage.removeItem('ttc_session')}
+function loyKey(name,phone){return name.trim().toLowerCase().replace(/\s+/g,'_')+'_'+phone.trim()}
+function loyTier(pts){return LOY_TIERS.find(t=>pts>=t.min&&pts<=t.max)||LOY_TIERS[0]}
+
+function openLoyalty(){document.getElementById('loyalty-modal').classList.add('open')}
+function closeLoyalty(){document.getElementById('loyalty-modal').classList.remove('open')}
+document.getElementById('loyalty-modal').addEventListener('click',function(e){if(e.target===this)closeLoyalty()})
+
+function loyShowPanel(id){
+  document.querySelectorAll('.loy-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function loyLogin(){
+  const name=document.getElementById('loy-inp-name').value.trim();
+  const phone=document.getElementById('loy-inp-phone').value.trim();
+  const msg=document.getElementById('loy-login-msg');
+  if(!name||!phone){msg.className='loy-msg err';msg.textContent='Please enter both name and phone.';return}
+  if(!/^\d{10}$/.test(phone)){msg.className='loy-msg err';msg.textContent='Enter valid 10-digit phone.';return}
+  const key=loyKey(name,phone);
+  const users=loyGetUsers();
+  if(!users[key]){
+    users[key]={name,phone,pts:0,visits:0,spent:0,saved:0,since:new Date().toLocaleDateString('en-IN',{month:'short',year:'numeric'}),history:[],claimed:{}};
+    loySaveUsers(users);
+    msg.className='loy-msg ok';msg.textContent='Welcome! Account created ✓';
+  } else {
+    msg.className='loy-msg ok';msg.textContent='Welcome back, '+users[key].name+'! ✓';
+  }
+  loySaveSession(key);
+  setTimeout(()=>loyShowDash(key),600);
+}
+
+function loyLogout(){
+  loyClearSession();
+  loyShowPanel('loy-login');
+  document.getElementById('loy-pts-badge').style.display='none';
+  document.getElementById('loy-inp-name').value='';
+  document.getElementById('loy-inp-phone').value='';
+  document.getElementById('loy-login-msg').textContent='';
+}
+
+function loyShowDash(key){
+  const u=loyGetUsers()[key];
+  document.getElementById('loy-greet').textContent='Hi, '+u.name+'!';
+  document.getElementById('loy-since').textContent=u.since;
+  loyShowPanel('loy-dash');
+  loyRefresh(key);
+}
+
+function loyRefresh(key){
+  const u=loyGetUsers()[key];
+  document.getElementById('loy-pts-val').textContent=u.pts;
+  document.getElementById('loy-visits-val').textContent=u.visits;
+  document.getElementById('loy-spent-val').textContent='₹'+u.spent;
+  document.getElementById('loy-saved-val').textContent='₹'+u.saved;
+
+  // badge on floating btn
+  const badge=document.getElementById('loy-pts-badge');
+  badge.textContent=u.pts; badge.style.display='block';
+
+  // tier
+  const tier=loyTier(u.pts);
+  const chip=document.getElementById('loy-tier-chip');
+  chip.textContent=tier.name; chip.style.background=tier.bg; chip.style.color=tier.color;
+
+  const nextTier=LOY_TIERS.find(t=>t.min>u.pts);
+  if(nextTier){
+    const pct=Math.min(100,Math.round(((u.pts-tier.min)/(nextTier.min-tier.min))*100));
+    document.getElementById('loy-tier-fill').style.width=pct+'%';
+    document.getElementById('loy-tier-from').textContent=tier.name+' ('+u.pts+' pts)';
+    document.getElementById('loy-tier-to').textContent=nextTier.name+' ('+nextTier.min+' pts)';
+    document.getElementById('loy-tier-hint').textContent=(nextTier.min-u.pts)+' pts more to reach '+nextTier.name;
+  } else {
+    document.getElementById('loy-tier-fill').style.width='100%';
+    document.getElementById('loy-tier-from').textContent='Platinum — Max Tier';
+    document.getElementById('loy-tier-to').textContent='';
+    document.getElementById('loy-tier-hint').textContent='You have reached the highest tier!';
+  }
+
+  // rewards
+  const rl=document.getElementById('loy-rewards-list'); rl.innerHTML='';
+  LOY_REWARDS.forEach(r=>{
+    const earned=u.pts>=r.pts; const claimed=u.claimed&&u.claimed[r.id];
+    const row=document.createElement('div'); row.className='loy-reward-row';
+    row.innerHTML=`<div><div class="loy-reward-name">${r.name}</div><div class="loy-reward-sub">${r.sub} · ${r.pts} pts</div></div>`+
+      (claimed?`<span class="loy-badge loy-badge-claimed">Claimed</span>`:
+       earned?`<button class="loy-btn loy-btn-sm" onclick="loyClaimReward('${r.id}','${key}')">Claim</button>`:
+       `<span class="loy-badge loy-badge-locked">${r.pts-u.pts} pts away</span>`);
+    rl.appendChild(row);
+  });
+
+  // history
+  const hl=document.getElementById('loy-hist-list');
+  if(!u.history||u.history.length===0){
+    hl.innerHTML='<div style="font-size:13px;color:#b08060;">No activity yet.</div>';
+  } else {
+    hl.innerHTML='';
+    [...u.history].reverse().slice(0,8).forEach(h=>{
+      const row=document.createElement('div'); row.className='loy-hist-row';
+      row.innerHTML=`<div><div>${h.note}</div><div class="loy-hist-date">${h.date}</div></div>`+
+        `<div class="${h.pts>0?'loy-pts-add':'loy-pts-sub'}">${h.pts>0?'+':''}${h.pts} pts</div>`;
+      hl.appendChild(row);
+    });
+  }
+}
+
+function loyAddVisit(){
+  const key=loyGetSession();
+  const amt=parseInt(document.getElementById('loy-amt').value);
+  const msg=document.getElementById('loy-visit-msg');
+  if(!amt||amt<1){msg.className='loy-msg err';msg.textContent='Enter a valid amount.';return}
+  const users=loyGetUsers();
+  const u=users[key];
+  const pts=Math.floor(amt/10);
+  u.pts+=pts; u.visits+=1; u.spent+=amt;
+  u.history=u.history||[];
+  u.history.push({note:'Visit — ₹'+amt+' spent',pts,date:new Date().toLocaleDateString('en-IN')});
+  loySaveUsers(users);
+  msg.className='loy-msg ok'; msg.textContent='You earned '+pts+' points! ✓';
+  document.getElementById('loy-amt').value='';
+  setTimeout(()=>{msg.textContent='';},2500);
+  loyRefresh(key);
+}
+
+function loyClaimReward(rid,key){
+  const users=loyGetUsers(); const u=users[key];
+  const r=LOY_REWARDS.find(x=>x.id===rid);
+  if(!r||u.pts<r.pts)return;
+  const discount=Math.round(u.spent*(r.pct/100));
+  u.pts-=r.pts; u.saved+=discount;
+  u.claimed=u.claimed||{}; u.claimed[rid]=true;
+  u.history=u.history||[];
+  u.history.push({note:'Reward claimed: '+r.name,pts:-r.pts,date:new Date().toLocaleDateString('en-IN')});
+  loySaveUsers(users);
+  alert(`Congratulations! You claimed: ${r.name}\n\n${r.sub}\n\nYou saved ₹${discount} on your total spend!`);
+  loyRefresh(key);
+}
+</script>
+</body>
+</html>
